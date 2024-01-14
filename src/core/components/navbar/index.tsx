@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { CrashGameContext } from '@/core/providers/games/crash-game.provider'
+import {
+  QuestionMarkCircleIcon,
+  Bars3Icon,
+} from '@heroicons/react/24/outline'
+import { FaRocketchat, FaBars } from "react-icons/fa6";
+import { getGameLogo, getHowToPlay } from '@/core/helpers'
+import GameLimitsModal from '../provably-fair/game-limits'
+import { Chat } from '../chat'
 
 type Props = {
   game: string
@@ -8,17 +16,6 @@ type Props = {
   executeAction: Function
   openChatHandler?: Function
 }
-
-import If from '../conditions/if'
-
-import {
-  QuestionMarkCircleIcon,
-  Bars3Icon,
-  ChatBubbleLeftIcon,
-} from '@heroicons/react/24/outline'
-import { getGameLogo, getHowToPlay } from '@/core/helpers'
-import GameLimitsModal from '../provably-fair/game-limits'
-import { Chat } from '../chat'
 
 export default function Navbar({
   game,
@@ -95,10 +92,15 @@ export default function Navbar({
       navigator.userAgent
     )
 
+  const formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL' 
+  });
+  
   return (
     <div className="">
-      <div className="navbar mx-auto  my-auto sm:px-3 h-12 flex items-center w-full justify-end">
-        <h1 className="self-center">{getGameLogo(game)}</h1>
+      <div className="navbar pb-0 mx-auto my-auto sm:px-3 h-12 flex items-center w-full justify-end">
+        <h1 className="p-2 lg:hidden">{getGameLogo(game)}</h1>
 
         <div className="flex items-center ml-auto gap-2">
           <button
@@ -106,25 +108,30 @@ export default function Navbar({
               setShowModal(!showModal)
               soundClick()
             }}
-            className="btn btn-sm py-1 px-2 flex items-center text-gray-500 btn-warning gap-1 rounded-md capitalize text-sm font-normal"
+            //className="py-1 pl-3 pr-4 flex items-center text-yellow-950 bg-yellow-400 shadow-[0_0_8px_1px_rgb(0,0,0,0.1)] shadow-yellow-400/30 hover:shadow-yellow-300/60 hover:bg-yellow-300/95 border-0 gap-2 rounded-md capitalize text-sm font-medium"
+            className="py-1 p-2 lg:pl-3 lg:pr-4 flex items-center text-yellow-950 bg-yellow-400 hover:bg-yellow-300/95 gap-2 rounded-md text-sm font-medium transition" // border-yellow-800/80 hover:border-yellow-600/50 border-2
           >
-            <QuestionMarkCircleIcon className="h-5 w-5" />
+            <QuestionMarkCircleIcon className="h-6 w-6" strokeWidth={2} />
             <span className="hidden sm:inline">Como Jogar?</span>
           </button>
 
-          <div className="text-sm text-center font-bold mr-1">
-            <span className="player-currency">R$</span>{' '}
-            <span className="balance">{balance}</span>
+          <div className="flex items-center gap-2 mx-2 px-2 py-1.5 rounded-lg border-2 border-stone-800 bg-stone-900/50 text-[15px] text-center font-semibold">
+            <small className='px-1.5 py-0.5 rounded bg-green-400/20 text-green-400'>BRL</small>
+            <span className="text-white">{formatter.format(+balance)}</span>
           </div>
 
-          <div className="border-l h-6 border-gray-400 border-opacity-50"></div>
+          <button className="px-2 group"
+            onClick={() => {
+              setShowChat(!showChat)
+              soundClick()
+            }}
+          >
+            <FaRocketchat className={`w-6 h-6 ${showChat ? 'fill-stone-400' : 'fill-stone-500/80'} group-hover:fill-stone-300`}/>
+          </button>
 
-          <div className="dropdown dropdown-end" ref={dropdownRef}>
-            <button
-              onClick={toggleDropdown}
-              className="btn btn-sm px-1 btn-ghost"
-            >
-              <Bars3Icon className="w-6 h-6 bg-opacity-50" />
+          <div className="dropdown dropdown-end mt-2" ref={dropdownRef}>
+            <button onClick={toggleDropdown} className="px-1 group">
+              <Bars3Icon className={`w-8 h-8 ${isDropdownOpen ? 'stroke-stone-400' : 'stroke-stone-500/80'} group-hover:stroke-stone-300`} />
             </button>
 
             {isDropdownOpen && (
@@ -222,15 +229,6 @@ export default function Navbar({
             )}
           </div>
 
-          <button
-            className="btn btn-sm px-1 btn-ghost"
-            onClick={() => {
-              setShowChat(!showChat)
-              soundClick()
-            }}
-          >
-            <ChatBubbleLeftIcon className="w-6 h-6 bg-opacity-50" />
-          </button>
         </div>
       </div>
 

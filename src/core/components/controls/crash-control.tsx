@@ -10,7 +10,6 @@ export default function CrashControl({ color }: Props) {
   return (
     <div className="w-full flex justify-center flex-wrap md:flex-nowrap">
       <MobileControl color={color} />
-
       <DesktopControl color={color} />
     </div>
   )

@@ -17,7 +17,7 @@ export default function MultiplierBadge({
     <>
       <button
         onClick={() => showRoundInfo(roundId)}
-        className={`bg-black h-6 border border-gray-700 py-3 hover:border-gray-600 border-opacity-50 font-bold rounded-xl flex capitalize opacity-75 hover:opacity-100 transition items-center justify-center cursor-pointer px-3 text-xs ${textColor}`}
+        className={`flex h-8 py-3 px-3 items-center justify-center rounded-lg bg-stone-950/80 saturate-[80%] hover:border-stone-800 hover:saturate-150 text-xs font-semibold transition cursor-pointer ${textColor}`}
       >
         {parseFloat(multipler).toFixed(2)}x
       </button>

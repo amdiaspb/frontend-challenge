@@ -15,6 +15,9 @@ import { TransactionStatus } from '@/core/providers/enums/transaction'
 import { TransactionMode } from '@/core/providers/enums/transaction'
 import { MAX_AMOUNT, MIN_AMOUNT } from '@/core/constants'
 
+import { MdAutorenew } from "react-icons/md";
+import { FaArrowPointer } from "react-icons/fa6";
+
 type Props = {
   secondEnabled?: boolean
   toggleSecond?: Function
@@ -143,16 +146,22 @@ export default function CrashForm({
   }
 
   const tabs = [
-    { key: TransactionMode.COMMON, title: 'Normal' },
-    { key: TransactionMode.AUTO, title: 'Auto' },
+    { key: TransactionMode.COMMON, title: 'Normal', icon: () => <FaArrowPointer className='w-4 h-4'/> },
+    { key: TransactionMode.AUTO, title: 'Auto', icon: () => <MdAutorenew className='w-5 h-5'/> },
   ]
 
+  const formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    maximumFractionDigits: 2
+  });
+
   return (
-    <div className="bg-black border border-gray-600 bg-opacity-20 border-opacity-20 crash-form w-full h-45 md:w-1/2 flex rounded-md p-3 relative">
+    <div className="bg-[#161616] border-2 border-stone-800 w-full md:w-1/2 flex rounded-md p-3 md:p-5 relative">
       <If condition={toggleSecond && !secondEnabled}>
         <button
           onClick={toggleSecond}
-          className={`btn border-none bg-[#ffffff] bg-opacity-10 btn-xs btn-circle absolute px-1 mt-1 right-3`}
+          className={`btn border-none bg-stone-800 btn-xs btn-circle absolute rounded-tr-lg right-0 top-0 z-10`}
         >
           <PlusIcon className="h-4 w-4" />
         </button>
@@ -161,7 +170,7 @@ export default function CrashForm({
       <If condition={hideSelf}>
         <button
           onClick={() => hideSelf()}
-          className={`btn border-none btn-xs bg-[#ffffff] bg-opacity-10 hover:bg-opacity-95 btn-circle absolute px-1 mt-1 right-3`}
+          className={`btn border-none bg-stone-800 btn-xs btn-circle absolute rounded-tr-lg right-0 top-0 z-10`}
         >
           <MinusIcon className="h-4 w-4" />
         </button>
@@ -170,12 +179,13 @@ export default function CrashForm({
       <form
         ref={formRef}
         method="POST"
-        className="w-full xl:w-[75%] mx-auto justify-center"
+        className="w-full mx-auto justify-center"
         onSubmit={(e) => submitTransaction(e)}
       >
-        <input type="hidden" name="teste" />
-        <div className="w-full flex justify-center mb-3">
-          <div className="w-[80%]">
+        {/* <input type="hidden" name="teste" /> */}
+
+        <div className="w-full flex justify-center mb-2 md:hidden">
+          <div className="w-full">
             <Tabs
               tabs={tabs}
               size="w-1/2"
@@ -185,14 +195,28 @@ export default function CrashForm({
             />
           </div>
         </div>
-        <section className="flex mx-auto gap-3">
-          <div className="flex flex-col w-6/12 sm:w-6/12">
-            <div className="flex mb-2 gap-2">
-              <div className="w-1/2">
+
+        <section className="flex mx-auto gap-3 md:gap-5">
+
+          <div className="flex flex-col w-1/2 lg:w-[60%]">
+
+            <div className="w-full md:flex justify-center mb-2 hidden">
+              <div className="w-full">
+                <Tabs
+                  tabs={tabs}
+                  size="w-1/2"
+                  active={transaction.mode}
+                  toggle={updateMode}
+                  variant={'gray'}
+                />
+              </div>
+            </div>
+
+            <div className='flex gap-2 flex-wrap lg:flex-nowrap'>
+              <div className="w-full lg:w-1/2">
                 <TextField
                   id="valueInput"
                   name="amount"
-                  className="text-lg text-white"
                   disabled={
                     transaction.status !=
                     TransactionStatus.UNREGISTERED
@@ -203,69 +227,65 @@ export default function CrashForm({
                 />
               </div>
 
-              <div className="w-1/2">
-                <div className="grid gap-2 h-full grid-cols-2">
-                  <div className="col-span-1">
-                    <button
-                      onClick={divideAmount}
-                      type="button"
-                      disabled={
-                        transaction.status !=
-                        TransactionStatus.UNREGISTERED
-                      }
-                      className="btn btn-ghost min-h-0 flex-1 w-full h-full rounded text-xl font-normal disabled:bg-gray-700 disabled:bg-opacity-30 border-gray-700 border-opacity-40"
-                    >
-                      &frac12;
-                    </button>
-                  </div>
+              <div className="flex flex-col gap-2 w-full lg:w-1/2">
 
-                  <div className="col-span-1">
-                    <button
-                      onClick={doubleAmount}
-                      type="button"
+                <div className="flex gap-2 h-1/2">
+                  <button
+                    onClick={divideAmount}
+                    type="button"
+                    disabled={
+                      transaction.status !=
+                      TransactionStatus.UNREGISTERED
+                    }
+                    className="w-full h-full rounded text-xl font-medium disabled:cursor-not-allowed disabled:text-white/20 bg-[#121212] border-2 border-stone-800/60"
+                  >
+                    &frac12;
+                  </button>
+                  <button
+                    onClick={doubleAmount}
+                    type="button"
+                    disabled={
+                      transaction.status !=
+                      TransactionStatus.UNREGISTERED
+                    }
+                    className="w-full h-full rounded font-medium disabled:cursor-not-allowed disabled:text-white/20 bg-[#121212] border-2 border-stone-800/60"
+                  >
+                    2x
+                  </button>
+                </div>
+
+                <div className="flex gap-2 h-1/2">
+                  <TextField
+                    id="valueInput"
+                    name="amount"
+                    disabled={
+                      transaction.status != TransactionStatus.UNREGISTERED
+                    }
+                    value={transaction.exitValue}
+                    setValue={updateExitValue}
+                    label="Auto Retirar"
+                  />
+
+                  <If condition={transaction.mode == TransactionMode.AUTO}>
+                    <TextField
+                      id="valueInput"
+                      name="amount"
                       disabled={
                         transaction.status !=
                         TransactionStatus.UNREGISTERED
                       }
-                      className="btn btn-ghost min-h-0 grow w-full h-full rounded capitalize text-normal font-normal disabled:bg-gray-700 disabled:bg-opacity-30 border-gray-700 border-opacity-40"
-                    >
-                      2x
-                    </button>
-                  </div>
+                      value={transaction.roundCount}
+                      setValue={updateRoundCount}
+                      label="Quantidade"
+                    />
+                  </If>
                 </div>
               </div>
             </div>
-
-            <div className="flex gap-2">
-              <TextField
-                id="valueInput"
-                name="amount"
-                disabled={
-                  transaction.status != TransactionStatus.UNREGISTERED
-                }
-                value={transaction.exitValue}
-                setValue={updateExitValue}
-                label="Auto Retirar"
-              />
-              <If
-                condition={transaction.mode == TransactionMode.AUTO}
-              >
-                <TextField
-                  id="valueInput"
-                  name="amount"
-                  disabled={
-                    transaction.status !=
-                    TransactionStatus.UNREGISTERED
-                  }
-                  value={transaction.roundCount}
-                  setValue={updateRoundCount}
-                  label="Quantidade"
-                />
-              </If>
-            </div>
+            
           </div>
 
-          <div className="w-6/12">
+          <div className="w-1/2 lg:w-[40%]">
             <If
               condition={
                 transaction == null ||
@@ -273,18 +293,19 @@ export default function CrashForm({
               }
             >
               <button
-                className={`btn border-2 hover:border-gray-300 text-[22px] hover:text-[24px] rounded-[20px] border-gray-400 ${getBackgroundColor(
-                  color
-                )} flex flex-col px-0 text-white h-full w-full`}
-              >
-                <span className="text-sm font-normal text-white">
-                  {transaction.mode == TransactionMode.COMMON
-                    ? 'Apostar'
-                    : 'Aposta Auto'}
-                </span>
-                <span className="mt-[3px] font-normal text-shadow-sm">
-                  R$ {transaction.amount}
-                </span>
+                className={`relative flex flex-col h-full w-full justify-center items-center rounded-xl font-medium
+                text-white saturate-200 [text-shadow:2px_2px_2px_rgb(0_0_0_/_40%)] transition hover:saturate-[300%]
+                bg-gradient-to-b from-emerald-600 to-emerald-800 border-2 border-emerald-700 uppercase
+              `}
+            >
+              <span>
+                {transaction.mode == TransactionMode.COMMON ? 'Apostar' : 'Aposta Auto'}
+              </span>
+              
+              <span className="-mt-1 text-xl">
+                {formatter.format(transaction.amount)}
+                <small className='text-emerald-300'> BRL</small>
+              </span>
               </button>
             </If>
 
@@ -295,21 +316,23 @@ export default function CrashForm({
               }
             >
               <button
-                className={`btn border-2 text-[22px] hover:text-[24px] flex flex-col px-0 text-white h-full w-full bg-red-700 rounded-[20px] hover:bg-red-800 border-[#ffffff40] hover:border-gray-400 `}
+                className={`relative flex flex-col h-full w-full justify-center items-center rounded-xl font-medium
+                  text-white saturate-100 [text-shadow:2px_2px_2px_rgb(0_0_0_/_40%)] transition hover:saturate-[125%]
+                  bg-gradient-to-b from-red-600 to-red-800 border-2 border-red-700 uppercase
+                `}
                 onClick={() => cancelTransaction(position)}
               >
                 <If condition={transaction.autoStarted}>
-                  <span className="text-sm">
-                    Cancelar ({transaction.roundCount + 1})
-                  </span>
+                  <span>Cancelar ({transaction.roundCount + 1})</span>
                 </If>
 
                 <If condition={!transaction.autoStarted}>
-                  <span className="text-sm">Cancelar</span>
+                  <span>Cancelar</span>
                 </If>
 
-                <span className="text-xl font-semibold">
-                  R$ {transaction.amount}
+                <span className="-mt-1 text-xl font-semibold">
+                  {formatter.format(transaction.amount)}
+                  <small className='text-red-300'> BRL</small>
                 </span>
               </button>
             </If>
@@ -322,17 +345,18 @@ export default function CrashForm({
             >
               <div className="flex flex-col w-full h-full">
                 <button
-                  className={`btn border-2 text-[22px] hover:text-[24px] bg-red-700 rounded-[20px] hover:bg-red-800 border-[#ffffff40] flex flex-col px-0 text-white h-full w-full`}
+                  className={`relative flex flex-col h-full w-full justify-center items-center rounded-xl font-medium
+                    text-white saturate-100 [text-shadow:2px_2px_2px_rgb(0_0_0_/_40%)] transition hover:saturate-[125%]
+                    bg-gradient-to-b from-red-600 to-red-800 border-2 border-red-700 uppercase
+                  `}
                   onClick={cancelFuterTransaction}
                 >
                   <If condition={transaction.autoStarted}>
-                    <span className="text-sm">
-                      Cancelar ({transaction.roundCount})
-                    </span>
+                    <span>Cancelar ({transaction.roundCount})</span>
                   </If>
 
                   <If condition={!transaction.autoStarted}>
-                    <span className="text-xl">Cancelar</span>
+                    <span className="-mt-1 text-xl">Cancelar</span>
                   </If>
                 </button>
               </div>
@@ -345,20 +369,23 @@ export default function CrashForm({
               }
             >
               <button
-                className={`btn border-2 text-[22px] hover:text-[24px] bg-[#ff7700] rounded-[20px] hover:bg-[#d26200] border-[#ffffff40] flex flex-col px-0 text-white h-full w-full`}
+                className={`relative flex flex-col h-full w-full justify-center items-center rounded-xl font-medium
+                  text-white saturate-100 [text-shadow:2px_2px_2px_rgb(0_0_0_/_40%)] transition hover:saturate-[125%]
+                  bg-gradient-to-b from-amber-500 to-amber-700 border-2 border-amber-600 uppercase
+                  shadow-[0_0_5px_2px_rgb(0,0,0,0.1)] shadow-amber-500/40 
+                `}
                 onClick={() => cashOut(position)}
               >
                 <If condition={transaction.autoStarted}>
-                  <span className="text-sm">
-                    Retirar ({transaction.roundCount + 1})
-                  </span>
+                  <span>Retirar ({transaction.roundCount + 1})</span>
                 </If>
 
                 <If condition={!transaction.autoStarted}>
-                  <span className="text-sm">Retirar</span>
+                  <span>Retirar</span>
                 </If>
-                <span className="text-xl font-semibold">
-                  R$ {(transaction.amount * multiplier).toFixed(2)}
+                <span className="-mt-1 text-xl">
+                  {formatter.format(transaction.amount * multiplier)}
+                  <small className='text-amber-300'> BRL</small>
                 </span>
               </button>
             </If>

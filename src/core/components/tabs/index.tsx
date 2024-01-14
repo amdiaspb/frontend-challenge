@@ -1,8 +1,11 @@
 import React from 'react'
+import { CiBitcoin } from "react-icons/ci";
+import { IconType } from 'react-icons/lib/cjs/iconBase'
 
 export type Tab = {
   key: string
   title: string
+  icon?: () => React.JSX.Element
 }
 
 type Props = {
@@ -43,19 +46,20 @@ export default function Tabs({
 }: Props) {
   return (
     <div
-      className={`tabs p-1 rounded bg-gray-700 bg-opacity-20 flex w-full justify-center`}
+      className={`tabs p-1 rounded-lg bg-[#0e0e0e] border-2 border-stone-800/60 flex w-full justify-center flex-wrap`}
     >
       {tabs.map((tab) => {
         return (
           <a
             key={tab.key}
-            className={`tab tab-sm flex max:w-[50%]   items-center text-xs font-medium ${size} ${
+            className={`tab tab-sm flex grow h-8 gap-1.5 items-center text-xs font-medium text-[#5e5e5e] ${
               active == tab.key
-                ? `rounded bg-gray-700 bg-opacity-25 text-gray-300`
-                : ''
+                ? `rounded bg-[#121212] text-[#969696] [&>svg]:text-[#dddfdc]`
+                : 'hover:text-[#969696]'
             }`}
             onClick={() => toggle(tab.key)}
           >
+            {tab.icon && <tab.icon/>}
             {tab.title}
           </a>
         )

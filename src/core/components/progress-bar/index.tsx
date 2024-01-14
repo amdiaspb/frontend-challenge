@@ -35,11 +35,8 @@ export default function ProgressBar({
   label = 'Próxima Rodada em',
 }: Props) {
   return (
-    <div className="w-full relative flex items-center border border-gray-500 bg-gray-600 bg-opacity-50 border-opacity-50 rounded-md h-6 dark:bg-gray-700">
-      <div
-        className={`${getBackgroundColor(
-          color
-        )} h-full transition-all duration-100 rounded-md`}
+    <div className="w-full relative flex items-center bg-black/50 rounded-md p-1 h-[26px]">
+      <div className={`${getBackgroundColor(color)} h-full transition-all duration-100 rounded`}
         style={{
           width: `${(value / max) * 100}%`,
           transitionTimingFunction: 'linear',
@@ -47,7 +44,7 @@ export default function ProgressBar({
         }}
       ></div>
 
-      <small className="absolute w-full h-full font-semibold text-center text-xs  pointer-events-none flex items-center justify-center text-gray-200 uppercase">
+      <small className="absolute w-full h-full font-semibold text-center text-sm pointer-events-none flex items-center justify-center text-gray-200 uppercase [text-shadow:1.5px_1.5px_1.5px_rgb(0_0_0_/_100%)]">
         {label} {Math.abs(value)}
       </small>
     </div>

@@ -4,6 +4,7 @@ import Badge from '@/core/components/results/badge'
 import If from '@/core/components/conditions/if'
 import { CrashGameContext } from '@/core/providers/games/crash-game.provider'
 import RoundInfoModal from '../shared/modals/crash/round-info'
+import { LuHistory } from "react-icons/lu";
 
 type Props = {
   variant: string
@@ -32,9 +33,26 @@ export default function MultiplierResults({ variant }: Props) {
   }, [])
 
   return (
-    <div className="w-full h-6 relative z-10">
+    <div className="flex gap-2 w-full relative z-10">
+
+
       <If condition={!expand}>
-        <div className="flex mr-10 items-center overflow-x-hidden gap-2">
+      <div className='absolute z-20 w-10 h-full right-14 bg-gradient-to-l from-[#121212] pointer-events-none' />
+
+        {/* <button
+          className={
+            `flex gap-1.5 h-8 py-3 px-3 pl-2.5 text-blue-50
+            items-center justify-center rounded-lg bg-blue-600 opacity-90 hover:opacity-100
+            uppercase text-xs font-semibold whitespace-nowrap tracking-wider transition cursor-pointer
+            shadow-[0_0_5px_1px_rgb(0,0,0,0.1)] shadow-blue-600/30
+          `}
+        >
+          <span className='text-xl'>🤩</span>
+          Receba 10 gráus grátis agora!
+        </button> */}
+
+        <div className="flex mr-14 items-center overflow-x-hidden gap-2">
+
           {results?.map((result, idx) => {
             return (
               <Badge
@@ -52,20 +70,21 @@ export default function MultiplierResults({ variant }: Props) {
               />
             )
           })}
+          
         </div>
       </If>
 
       <If condition={expand}>
-        <div className="h-6"></div>
-        <div className="h-auto  absolute -top-1 w-full rounded-md bg-black bg-opacity-80">
-          <div className="rounded-md results-bar">
-            <div className="border border-b-0 border-gray-700 border-opacity-40 flex items-center justify-between relative rounded-t px-2 h-8">
-              <h3 className="text-sm uppercase">
-                Histórico de Partidas
-              </h3>
-            </div>
+        <div className="h-8"></div>
+        
+        <div className="h-auto absolute -bottom-1 w-full rounded-b-lg bg-[#121212] p-6">
+          <div className="rounded-md">
+            <h3 className="relative flex gap-2 font-medium text-sm w-fit pl-1 pr-2 pb-3 -mt-1 border-b-2 border-white/50 -mb-0.5 z-50 uppercase">
+              <LuHistory className="h-5 w-5" strokeWidth={2} />
+              Histórico de Partidas
+            </h3>
 
-            <div className="flex flex-wrap border border-gray-700 border-opacity-40 shadow max-h-40 rounded-b p-2 gap-2 overflow-y-scroll scrollbar-w-0 scrollbar-track-gray-400 scrollbar-thumb-gray-700 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
+            <div className="flex flex-wrap border-t-2 pt-3.5 border-stone-800 max-h-40 rounded-b gap-2 overflow-y-scroll scrollbar-w-0 scrollbar-track-gray-400 scrollbar-thumb-gray-700 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
               {results?.map((result, idx) => {
                 return (
                   <Badge
@@ -90,15 +109,15 @@ export default function MultiplierResults({ variant }: Props) {
 
       <div className=" results-btn h-auto flex absolute top-0 right-1 mt-0 z-10 rounded-xl">
         <button
-          className={`btn bg-black hover:bg-black border border-gray-700 hover:border-gray-600 rounded-xl p-0 min-h-0 max-h-8 w-12 py-1 h-auto text-xs shadow`}
+          className={`flex h-8 py-3 px-3 items-center justify-center rounded-lg text-stone-400 hover:text-white text-xs font-semibold transition cursor-pointer`}
           onClick={(e) => setExpand(!expand)}
         >
           <If condition={!expand}>
-            <ClockIcon className="h-4 w-4 " />
+            <LuHistory className="h-5 w-5" strokeWidth={2} />
           </If>
 
           <If condition={expand}>
-            <XMarkIcon className="h-4 w-4 " />
+            <div className='w-[44px] scale-y-90 scale-x-105 -mx-3 mb-0.5 text-xl font-normal'>x</div>
           </If>
         </button>
       </div>

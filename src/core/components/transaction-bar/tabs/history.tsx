@@ -5,6 +5,7 @@ import Header from '../lists/history/header'
 
 export default function HistoryTab() {
   const { betsHistory, getBetsHistory } = useContext(CrashGameContext)
+  console.log
 
   const sum = (bets = []) => {
     let sum = 0
@@ -12,7 +13,10 @@ export default function HistoryTab() {
       sum += parseFloat(bet.amount)
     })
 
-    return sum.toFixed(2)
+    return sum.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL' 
+    });
   }
 
   useEffect(() => {
@@ -21,16 +25,25 @@ export default function HistoryTab() {
 
   return (
     <div className="flex flex-col flex-1">
-      <section className="py-3 w-full">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <div className="text-sm">{betsHistory.length}x</div>
+
+      <section className="py-4 px-3 w-full">
+        <div className="flex justify-between rounded bg-opacity-25 items-center ">
+
+          <div className="flex flex-col">
+            <div className='text-xs text-stone-400'>Nº de apostas</div>
+            <div className="text-sm font-medium text-white">{betsHistory.length}</div>
           </div>
 
-          <span className="text-sm">R$ {sum(betsHistory)}</span>
+          <div className="flex flex-col">
+            <div className='text-xs text-stone-400'>Total Apostado</div>
+            <div className="text-sm font-medium text-white">{sum(betsHistory)}</div>
+          </div>
+
         </div>
       </section>
+
       <Header />
+
       <section className="h-full flex-shrink-1 flex-grow basis-0  overflow-y-scroll scrollbar-w-0 scrollbar-track-gray-400 scrollbar-thumb-gray-700 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
         <BetList items={betsHistory} />
       </section>

@@ -23,8 +23,20 @@ export default function Snackbar() {
     }
   }, [notifications])
 
+  const not = {time: 1705175595253, cashed_out_at: 1.03, amount: '1.00', type: 'cash_out', timeout: 3000};
+
   return (
-    <div className="absolute h-auto w-full top-[50px] left-0 z-50 pointer-events-none flex justify-center mt-4">
+    <div className="absolute flex justify-center gap-4 h-auto w-full top-1/2 left-0 z-50 pointer-events-none ">
+      {/* <Transaction
+        key={0}
+        {...not}
+        index={0}
+      />
+      <Transaction
+        key={0}
+        {...not}
+        index={0}
+      /> */}
       {notifications.map((notification, index) => {
         if (notification.type == NotificationType.CASH_OUT) {
           return (
