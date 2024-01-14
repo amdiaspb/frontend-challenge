@@ -135,8 +135,8 @@ export default function Navbar({
             </button>
 
             {isDropdownOpen && (
-              <div className="mt-2 menu menu-compact rounded py-2 w-[280px] max-w-[300px] absolute top-[30px] right-[30px] z-10">
-                <div className="flex gap-4 p-4">
+              <div className="mt-2 menu menu-compact p-4 space-y-3 bg-[#161616] border-2 border-stone-800 rounded-lg w-[280px] max-w-[300px] absolute top-10 right-1 z-10 shadow-md">
+                <div className="flex gap-4">
                   <img
                     src="https://api.multiavatar.com/NOME.svg"
                     className="h-12 invert rounded-lg"
@@ -152,9 +152,10 @@ export default function Navbar({
                     </p>
                   </div>
                 </div>
-                <div className="px-2 text-xs item">
+
+                <div className="text-xs item">
                   <div className="form-control">
-                    <label className="label hover:font-bold cursor-pointer">
+                    <label className="label hover:font-bold cursor-pointer p-0">
                       <span className="label-text text-xs opacity-90">
                         Sons
                       </span>
@@ -170,9 +171,10 @@ export default function Navbar({
                     </label>
                   </div>
                 </div>
-                <div className="px-2 text-xs item">
+
+                <div className="text-xs item">
                   <div className="form-control">
-                    <label className="label hover:font-bold cursor-pointer">
+                    <label className="label hover:font-bold cursor-pointer p-0">
                       <span className="label-text text-xs opacity-90">
                         Música
                       </span>
@@ -206,7 +208,7 @@ export default function Navbar({
               </div>} */}
 
                 <div
-                  className="px-3 cursor-pointer py-3 text-sm hover:font-bold text-xs item"
+                  className="cursor-pointer hover:font-bold text-xs item"
                   onClick={() => {
                     setShowGameLimitsModal(!showGameLimitsModal)
                     soundClick()
@@ -218,7 +220,7 @@ export default function Navbar({
                 </div>
 
                 <a
-                  className="px-3 cursor-pointer py-3 text-sm hover:font-bold text-xs item"
+                  className="cursor-pointer hover:font-bold text-xs item"
                   href=""
                 >
                   <label className="cursor-pointer text-white text-xs opacity-75">

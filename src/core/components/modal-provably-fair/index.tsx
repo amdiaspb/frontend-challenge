@@ -54,7 +54,7 @@ export default function About({ show, toggle }: Props) {
             <div className='flex justify-center'>
               <img
                 src="../images/icons/SecureLogo.svg"
-                className="h-28"
+                className="h-28" 
               />
               <p className="flex flex-col items-center justify-center text-white/90 italic font-medium">
                 <span>ProvablyFair</span>

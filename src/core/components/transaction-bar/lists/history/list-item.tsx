@@ -11,7 +11,6 @@ type Props = {
 export default function ListItem({ data, showRoundInfo }: Props) {
   const isGreen = data.outcome == 'win'
   const isRed = data.outcome == 'lose'
-  console.log(data);
 
   const formatter = new Intl.NumberFormat('pt-BR', {
     style: 'currency',

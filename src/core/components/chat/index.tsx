@@ -49,9 +49,10 @@ export const Chat = ({ show }: Props) => {
 
   return (
     <If condition={show}>
-      <div className="w-80 mt-0 py-2 mb-44 px-2 border-l border-gray-700 border-opacity-50 text-sm rounded-lg bg-black backdrop-blur-sm bg-opacity-30 chat-container absolute right-0 z-40  h-[50%] sm:h-[80%] md:h-[70%] lg:h-[60%]">
-        <div className="flex flex-col relative gap-3 h-full">
-          <div className="mb-12 p-2 flex-shrink-1 flex-grow basis-0  overflow-y-scroll scrollbar-w-0 scrollbar-track-gray-400 scrollbar-thumb-gray-600 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
+      <div className="w-80 text-sm p-2 rounded-r bg-[#161616] border-2 border-stone-800 absolute right-4 top-20 z-40  h-[50%] sm:h-[80%] md:h-[70%] lg:h-[63.55%]">
+        <div className="flex gap-2 flex-col relative h-full">
+          <div className="flex-shrink-1 p-2 flex-grow basis-0 overflow-y-scroll scrollbar-track-gray-600/20 scrollbar-thumb-gray-400/20 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
+
             {messages.map((data: IGameMessage, idx: number) => {
               return (
                 <>
@@ -63,10 +64,10 @@ export const Chat = ({ show }: Props) => {
                         </div>
                       </div>
 
-                      <div className="chat-bubble min-h-0">
+                      <div className="chat-bubble min-h-0 bg-opacity-80 text-opacity-90">
                         {data.message}
                       </div>
-                      <div className="chat-footer text-xs opacity-50">
+                      <div className="chat-footer text-xs opacity-50 mt-1">
                         {dateToHumanReadable(data.createdAt)}
                       </div>
                     </div>
@@ -79,10 +80,10 @@ export const Chat = ({ show }: Props) => {
                           <img src="https://www.fiscalti.com.br/wp-content/uploads/2021/02/default-user-image.png" />
                         </div>
                       </div>
-                      <div className="chat-bubble min-h-0">
+                      <div className="chat-bubble min-h-0 bg-opacity-80 text-opacity-90">
                         {data.message}
                       </div>
-                      <div className="chat-footer text-xs opacity-50">
+                      <div className="chat-footer text-xs opacity-50 mt-0.5">
                         {dateToHumanReadable(data.createdAt)}
                       </div>
                     </div>
@@ -92,7 +93,7 @@ export const Chat = ({ show }: Props) => {
             })}
           </div>
 
-          <div className="sticky  bottom-2">
+          <div className="sticky bottom-2">
             <If condition={showEmojiPicker}>
               <div className="absolute bottom-10 w-full">
                 <EmojiPicker
@@ -140,20 +141,20 @@ export const Chat = ({ show }: Props) => {
             <div className="form-control">
               <div className="input-group">
                 <button
-                  className="btn btn-sm"
+                  className="btn btn-sm border-0 bg-opacity-50"
                   onClick={(e) => handleShowEmojiPicker(e)}
                 >
                   <FaceSmileIcon className="w-4 h-4" />
                 </button>
                 <input
-                  className="input input-sm w-full"
+                  className="input input-sm w-full bg-opacity-80 focus:outline-none"
                   value={message}
                   onChange={handleMessage}
                   onKeyDown={handleMessage}
                 />
 
                 <button
-                  className="btn btn-sm capitalize"
+                  className="btn btn-sm capitalize border-0 bg-opacity-50 font-medium"
                   onClick={attemptSendMessage}
                 >
                   Enviar

@@ -32,8 +32,11 @@ export default function RoundInfoModal({
   return (
     <Modal show={show} toggle={toggle}>
       <div className="w-full rounded-md">
-        <section className="modal-header py-1 flex justify-between items-center px-3  relative">
-          <h1 className="text-1xl uppercase flex gap-4 p-3">Partida #{data.id} <span className="default-badget block mt-[-3px]">{data.extras?.point} x</span></h1>
+        <section className="modal-header px-6 py-4 flex justify-between items-center relative bg-[#141414]">
+          <h1 className="text-[17px] uppercase font-bold pl-1 flex items-center gap-4 text-white">
+            Partida #{data.id} 
+            <span className="font-semibold text-xs text-emerald-400 border-2 border-emerald-400/50 rounded-lg px-3 py-1 normal-case">{data.extras?.point}x</span>
+          </h1>
           <button
             onClick={() => toggle()}
             className="btn p-0 btn-sm hover:bg-slate-900 bg-opacity25 input focus:outline-none focus:shadow-none input-sm0 hover:text-white btn-ghost "
@@ -42,86 +45,86 @@ export default function RoundInfoModal({
           </button>
         </section>
 
-        <div className="w-full text-sm">
-          <div className="px-6 py-4 flex flex-col gap-5">
-            <div className="flex flex-col gap-2">
+        <div className="w-full text-sm bg-[#1b1b1b] p-8">
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-4">
               <div className="flex gap-2">
-                <ServerIcon className="w-8 h-8 pt-1 text-[#6c73a8] mt-[27px]" />
+                <ServerIcon className="w-8 h-8 pt-1 text-[#6c73a8]" />
                 <div>
-                  <p className="text-base font-bold text-white mt-6">Server Seed</p>
-                  <p className="text-xs">Gerado por Provably Fair</p>
+                  <p className="text-base font-semibold text-white">Server Seed</p>
+                  <p className="text-xs text-white/60 -mt-0.5">Gerado por Provably Fair</p>
                 </div>
 
               </div>
 
-              <div className="w-full fake-box">
+              <div className="w-full rounded-lg">
                 <input
                   type="text"
                   value={data.seed}
-                  className="w-full rounded-md border-gray-600 bg-slate-900 bg-opacity-25 input input-sm focus:shadow-none focus:outline-0 cursor-text"
+                  className="w-full rounded-md border-0 bg-black/30 text-white/50 input input-sm text-[13px] p-5 focus:shadow-none focus:outline-0 cursor-text"
                   readOnly
                 />
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-4">
               <div className="flex gap-2">
-                <ShieldCheckIcon className="w-8 h-8 pt-1 text-[#6c73a8] mt-[27px]" />
+                <ShieldCheckIcon className="w-8 h-8 pt-1 text-[#6c73a8]" />
                 <div>
-                  <p className="text-base font-bold text-white mt-6">Hash SHA512 combinada</p>
-                  <p className="text-xs">A seed acima mencionada é convertidas em hash SHA512. Este é o resultado deste jogo</p>
+                  <p className="text-base font-semibold text-white">Hash SHA512 combinada</p>
+                  <p className="text-xs text-white/60 -mt-[1px]">A seed acima mencionada é convertidas em hash SHA512. Este é o resultado deste jogo</p>
                 </div>
               </div>
 
-              <div className="w-full fake-box">
+              <div className="w-full rounded-lg">
                 <input
                   type="text"
                   value={data.extras?.hash}
-                  className="w-full rounded-md border-gray-600 bg-slate-900 bg-opacity-25 input input-sm focus:shadow-none focus:outline-0 cursor-text"
+                  className="w-full rounded-md border-0 bg-black/30 text-white/50 input input-sm text-[13px] p-5 focus:shadow-none focus:outline-0 cursor-text"
                   readOnly
                 />
               </div>
             </div>
 
-            <div className="flex fake-box justify-between">
+            <div className="flex fake-box justify-between bg-black/[15%] p-4">
               <div className="flex flex-col gap-2">
-                <div className="text-center text-gray-400 text-xs">HEX</div>
+                <div className="text-center text-gray-300/90 text-xs">HEX</div>
 
-                <div className="w-full px-2">
+                <div className="w-full">
                   <input
                     type="text"
                     value={data.extras?.slice}
-                    className="w-full rounded-md border-gray-600 bg-slate-900 bg-opacity-25 input input-sm focus:shadow-none focus:outline-0 cursor-text text-center"
+                    className="w-full rounded-md border-0 text-center bg-black/30 text-white/50 input input-sm text-[13px] focus:shadow-none focus:outline-0 cursor-text"
                     readOnly
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
-                <div className="text-center text-xs text-gray-400">
+                <div className="text-center text-xs text-gray-300/90">
                   DEC
                 </div>
 
-                <div className="w-full px-2">
+                <div className="w-full">
                   <input
                     type="text"
                     value={data.extras?.decimal}
-                    className="w-full rounded-md border-gray-600 bg-slate-900 bg-opacity-25 input input-sm focus:shadow-none focus:outline-0 cursor-text text-center"
+                    className="w-full rounded-md border-0 text-center bg-black/30 text-white/50 input input-sm text-[13px] focus:shadow-none focus:outline-0 cursor-text"
                     readOnly
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
-                <div className="text-center text-xs text-gray-400">
+                <div className="text-center text-xs text-gray-300/90">
                   Resultado
                 </div>
 
-                <div className="w-full px-2">
+                <div className="w-full">
                   <input
                     type="text"
                     value={data.extras?.point}
-                    className="w-full rounded-md border-gray-600 bg-slate-900 bg-opacity-25 input input-sm focus:shadow-none focus:outline-0 cursor-text text-center"
+                    className="w-full rounded-md border-0 text-center bg-black/30 text-white/50 input input-sm text-[13px] focus:shadow-none focus:outline-0 cursor-text"
                     readOnly
                   />
                 </div>
